@@ -17,5 +17,7 @@ public interface QuizService {
     List<Question> questionList();
     Question getQuestion(Long questionId) throws QuizNotFoundException;
     Question saveQuestion(Question question);
-    QuestionDto saveQuestionDto(QuestionDto questionDto);
+    QuestionDto saveQuestionDto(QuestionDto questionDto) throws QuizNotFoundException;
+
+    QuestionDto addQuestionToQuiz(QuestionDto questionDto) throws QuizNotFoundException;
 }

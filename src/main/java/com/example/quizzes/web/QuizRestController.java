@@ -1,6 +1,7 @@
 package com.example.quizzes.web;
 
 import com.example.quizzes.dtos.QuestionDto;
+import com.example.quizzes.dtos.QuizDto;
 import com.example.quizzes.entities.Question;
 import com.example.quizzes.entities.Quiz;
 import com.example.quizzes.exceptions.QuizNotFoundException;
@@ -22,6 +23,10 @@ public class QuizRestController {
     @GetMapping("/quizzes")
     public List<Quiz> quizzesList() throws QuizNotFoundException{
         return quizService.quizzesList();
+    }
+    @GetMapping("/quizzesdto")
+    public List<QuizDto> quizzesDtoList() throws QuizNotFoundException{
+        return quizService.quizzesDtoList();
     }
 
     @GetMapping("/quizzes/{id}")
@@ -45,12 +50,12 @@ public class QuizRestController {
     }
 
     @PostMapping("/add-question")
-    public Question saveQuestion(@RequestBody Question question) {
-        return quizService.saveQuestion(question);
+    public Question saveQuestion(@RequestBody QuestionDto questionDto) {
+        return quizService.saveQuestion(questionDto);
     }
 
     @PostMapping("/add-question-to-quiz")
-    public QuestionDto addQuestionToQuiz(@RequestBody QuestionDto questionDto) {
-        return quizService.saveQuestionDto(questionDto);
+    public QuestionDto addQuestionToQuiz(@RequestBody QuestionDto questionDto) throws QuizNotFoundException {
+        return quizService.addQuestionToQuiz(questionDto);
     }
 }

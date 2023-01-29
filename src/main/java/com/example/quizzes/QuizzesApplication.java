@@ -2,6 +2,7 @@ package com.example.quizzes;
 
 import com.example.quizzes.entities.Question;
 import com.example.quizzes.entities.Quiz;
+import com.example.quizzes.exceptions.QuizNotFoundException;
 import com.example.quizzes.repositories.QuestionRepository;
 import com.example.quizzes.repositories.QuizRepository;
 import org.springframework.boot.CommandLineRunner;
@@ -25,7 +26,7 @@ public class QuizzesApplication {
 
     @RequestMapping("/s")
     public String save() {
-        return "s!";
+        return "sss!";
     }
 
     @RequestMapping("/hu")
@@ -42,13 +43,13 @@ public class QuizzesApplication {
                             QuestionRepository questionRepository) {
         return args -> {
             Quiz quiz = new Quiz();
-            quiz.setId(10L);
-            quiz.setName("first ever Quiz");
-            quiz.setDescription("this angular test is the hardest to ever witness hihi");
-
-
+            quiz.setName("Quizo");
+            quiz.setDescription("this angular test is the hardest to ever witness hihiwwww");
+            quizRepository.save(quiz);
+//
+//
             Question question=new Question();
-            question.setId(1L);
+
             question.setQuestion("How to get the best quiz App?");
             List<String> choices = new ArrayList<>();
             choices.add("first choice");
@@ -57,13 +58,13 @@ public class QuizzesApplication {
             choices.add("fouth choice");
             question.setChoices(choices);
             question.setCorrectChoice("seconde choice");
-            question.setQuizFather(quiz);
+            question.setQuizFather(quizRepository.findById(1L)
+                    .orElseThrow(() -> new QuizNotFoundException("Quiz not found")));
 
-            List<Question> questions = new ArrayList<>();
-            questions.add(question);
             questionRepository.save(question);
-            quiz.setQuestions(questions);
-            quizRepository.save(quiz);
+            //
+//            List<Question> questions = new ArrayList<>();
+//            questions.add(question);
         };
     }
 }

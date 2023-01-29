@@ -1,15 +1,13 @@
 package com.example.quizzes.entities;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Data
+@Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Quiz {
@@ -18,15 +16,9 @@ public class Quiz {
     private Long id;
     private String name;
     private String description;
-
-    @OneToMany(mappedBy = "quizFather")
+//, fetch = FetchType.EAGER
+    @OneToMany(mappedBy = "quizFather", fetch = FetchType.LAZY)
     private List<Question> questions;
-
-public Quiz ( Long id, String name, String description){
-    this.id=id;
-    this.name= name;
-    this.description= description;
-}
 
 
 }

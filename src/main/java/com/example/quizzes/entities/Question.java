@@ -1,15 +1,14 @@
 package com.example.quizzes.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Data
+@Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Question {
@@ -22,7 +21,8 @@ public class Question {
     private List<String> choices = new ArrayList<>();
     private String correctChoice;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Quiz quizFather;
 
 }

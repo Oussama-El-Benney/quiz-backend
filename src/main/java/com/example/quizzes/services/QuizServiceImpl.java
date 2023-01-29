@@ -6,6 +6,7 @@ import com.example.quizzes.entities.Question;
 import com.example.quizzes.entities.Quiz;
 import com.example.quizzes.exceptions.QuizNotFoundException;
 import com.example.quizzes.mappers.QuestionMapperImpl;
+import com.example.quizzes.mappers.QuizMapperImpl;
 import com.example.quizzes.repositories.QuestionRepository;
 import com.example.quizzes.repositories.QuizRepository;
 import lombok.AllArgsConstructor;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -22,11 +24,13 @@ import java.util.List;
 public class QuizServiceImpl implements QuizService{
 private QuizRepository quizRepository;
     private QuestionMapperImpl questionMapper;
+    private QuizMapperImpl quizMapper;
     private QuestionRepository questionRepository;
     @Override
     public List<QuizDto> quizzesDtoList() {
-//        return quizRepository.findAll();
-        return null;
+        List<Quiz> quizzes = quizRepository.findAll();
+        List<QuizDto> quizDtoList = quizzes.stream().map(quiz-> quizMapper.fromQuiz(quiz)).collect(Collectors.toList());;
+        return quizDtoList;
     }
 
     @Override
@@ -44,6 +48,7 @@ private QuizRepository quizRepository;
     public Quiz getQuiz(Long quizId) throws QuizNotFoundException {
         Quiz quiz = quizRepository.findById(quizId)
                 .orElseThrow(() -> new QuizNotFoundException("Product not found"));
+        quiz.getQuestions();
         return quiz;
     }
     @Override
@@ -71,10 +76,22 @@ private QuizRepository quizRepository;
     }
 
     @Override
-    public QuestionDto saveQuestionDto(QuestionDto questionDto) {
+    public QuestionDto saveQuestionDto(QuestionDto questionDto) throws QuizNotFoundException {
         log.info("Saving new Question");
         Question question = questionMapper.fromQuestionDTO(questionDto);
         Question savedQuestion =questionRepository.save(question);
+        return questionMapper.fromQuestion(savedQuestion);
+    }
+    @Override
+    public QuestionDto addQuestionToQuiz(QuestionDto questionDto) throws QuizNotFoundException {
+        log.info("adding new Question to quiz");
+        Question question = questionMapper.fromQuestionDTO(questionDto);
+        Quiz quiz = quizRepository.findById(questionDto.getQuizFatherId().longValue())
+                .orElseThrow(() -> new QuizNotFoundException("Quiz not found"));
+        question.setQuizFather(quiz);
+//quiz.getQuestions().add(question);
+Question savedQuestion =questionRepository.save(question);
+
         return questionMapper.fromQuestion(savedQuestion);
     }
 }
