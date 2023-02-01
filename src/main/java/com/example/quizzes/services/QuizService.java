@@ -13,7 +13,7 @@ public interface QuizService {
     QuizDto getQuizDTO(Long quizId);
     List<Quiz> quizzesList();
     Quiz getQuiz(Long quizId) throws QuizNotFoundException;
-    Quiz saveQuiz(Quiz quiz);
+    Quiz saveQuiz(QuizDto quizDto);
     List<Question> questionList();
     Question getQuestion(Long questionId) throws QuizNotFoundException;
     Question saveQuestion(Question question);

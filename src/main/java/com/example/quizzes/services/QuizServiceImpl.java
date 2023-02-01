@@ -52,8 +52,9 @@ private QuizRepository quizRepository;
         return quiz;
     }
     @Override
-    public Quiz saveQuiz(Quiz quiz) {
+    public Quiz saveQuiz(QuizDto quizDto) {
 //        log.info("Saving new Product");
+       Quiz quiz =quizMapper.fromQuizDTO(quizDto);
         Quiz savedQuiz =quizRepository.save(quiz);
         return savedQuiz;
     }

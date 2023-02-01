@@ -35,8 +35,8 @@ public class QuizRestController {
     }
 
     @PostMapping("/add-quiz")
-    public Quiz saveQuiz(@RequestBody Quiz quiz) {
-        return quizService.saveQuiz(quiz);
+    public Quiz saveQuiz(@RequestBody QuizDto quizDto) {
+        return quizService.saveQuiz(quizDto);
     }
 
     @GetMapping("/questions")
