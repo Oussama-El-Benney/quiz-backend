@@ -29,7 +29,7 @@ private QuizRepository quizRepository;
     @Override
     public List<QuizDto> quizzesDtoList() {
         List<Quiz> quizzes = quizRepository.findAll();
-        List<QuizDto> quizDtoList = quizzes.stream().map(quiz-> quizMapper.fromQuiz(quiz)).collect(Collectors.toList());;
+        List<QuizDto> quizDtoList = quizzes.stream().map(quiz-> quizMapper.fromQuiz(quiz)).collect(Collectors.toList());
         return quizDtoList;
     }
 
@@ -94,5 +94,12 @@ private QuizRepository quizRepository;
 Question savedQuestion =questionRepository.save(question);
 
         return questionMapper.fromQuestion(savedQuestion);
+    }
+
+    @Override
+    public List<QuestionDto> getQuizQuestions(Long quizId) {
+        List<Question> questions = this.questionRepository.findAllByQuizFather_Id(quizId);
+        List<QuestionDto> questionsDto =   questions.stream().map(question-> questionMapper.fromQuestion(question)).collect(Collectors.toList());
+        return questionsDto;
     }
 }

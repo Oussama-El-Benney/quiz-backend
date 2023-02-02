@@ -48,6 +48,10 @@ public class QuizRestController {
     public Question getQuestion(@PathVariable(name = "id") Long questionId) throws QuizNotFoundException {
         return quizService.getQuestion(questionId);
     }
+    @GetMapping("/quiz/{id}/questions")
+    public List<QuestionDto> getQuizQuestions(@PathVariable(name = "id") Long quizId) throws QuizNotFoundException {
+        return quizService.getQuizQuestions(quizId);
+    }
 
     @PostMapping("/add-question")
     public Question saveQuestion(@RequestBody QuestionDto questionDto) {
