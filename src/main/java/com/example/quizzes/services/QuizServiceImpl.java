@@ -1,5 +1,6 @@
 package com.example.quizzes.services;
 
+import com.example.quizzes.dtos.AnswerDto;
 import com.example.quizzes.dtos.QuestionDto;
 import com.example.quizzes.dtos.QuizDto;
 import com.example.quizzes.entities.Question;
@@ -101,5 +102,13 @@ Question savedQuestion =questionRepository.save(question);
         List<Question> questions = this.questionRepository.findAllByQuizFather_Id(quizId);
         List<QuestionDto> questionsDto =   questions.stream().map(question-> questionMapper.fromQuestion(question)).collect(Collectors.toList());
         return questionsDto;
+    }
+
+    @Override
+    public boolean verifyUserAnswer(AnswerDto answerDto) throws QuizNotFoundException {
+        Question question = this.questionRepository.findById(answerDto.getQuestionId())
+                .orElseThrow(() -> new QuizNotFoundException("Quiz not found"));
+        question.getCorrectChoice().equals(answerDto.getUserChoice());
+        return question.getCorrectChoice().equals(answerDto.getUserChoice());
     }
 }

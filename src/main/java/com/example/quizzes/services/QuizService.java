@@ -1,5 +1,6 @@
 package com.example.quizzes.services;
 
+import com.example.quizzes.dtos.AnswerDto;
 import com.example.quizzes.dtos.QuestionDto;
 import com.example.quizzes.dtos.QuizDto;
 import com.example.quizzes.entities.Question;
@@ -22,4 +23,6 @@ public interface QuizService {
     QuestionDto addQuestionToQuiz(QuestionDto questionDto) throws QuizNotFoundException;
 
     List<QuestionDto> getQuizQuestions(Long quizId);
+
+    boolean verifyUserAnswer(AnswerDto answerDto) throws QuizNotFoundException;
 }

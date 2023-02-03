@@ -1,5 +1,6 @@
 package com.example.quizzes.web;
 
+import com.example.quizzes.dtos.AnswerDto;
 import com.example.quizzes.dtos.QuestionDto;
 import com.example.quizzes.dtos.QuizDto;
 import com.example.quizzes.entities.Question;
@@ -61,5 +62,9 @@ public class QuizRestController {
     @PostMapping("/add-question-to-quiz")
     public QuestionDto addQuestionToQuiz(@RequestBody QuestionDto questionDto) throws QuizNotFoundException {
         return quizService.addQuestionToQuiz(questionDto);
+    }
+    @PostMapping("/verify-user-answer")
+    public boolean verifyUserAnswer(@RequestBody AnswerDto answerDto) throws QuizNotFoundException {
+        return quizService.verifyUserAnswer(answerDto);
     }
 }
